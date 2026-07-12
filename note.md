@@ -105,3 +105,7 @@ pub fn serialize(data: &str) -> String {
 
 
 ```
+
+
+
+will need to implement my curstom validator in my cmd 
