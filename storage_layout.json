@@ -1,0 +1,19 @@
+{
+  "storage": [
+    {
+      "astId": 11,
+      "contract": "src/Counter.sol:Counter",
+      "label": "number",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_uint256"
+    }
+  ],
+  "types": {
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    }
+  }
+}
