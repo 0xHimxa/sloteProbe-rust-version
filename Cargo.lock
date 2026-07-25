@@ -46,13 +46,14 @@ dependencies = [
 
 [[package]]
 name = "alloy-chains"
-version = "0.2.35"
+version = "0.2.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b5cc30538e90795a57647bef8d8864aad6e8d86190617009b4ef8d8b647b49a"
+checksum = "c36ddb69f5e41407e7a93aead3480f7c8ff076e73d01a951ae8f7ea4542c1ca0"
 dependencies = [
  "alloy-primitives",
  "num_enum",
  "phf",
+ "serde",
 ]
 
 [[package]]
@@ -4239,6 +4240,7 @@ name = "slotprobe"
 version = "0.1.0"
 dependencies = [
  "alloy",
+ "alloy-chains",
  "anyhow",
  "clap",
  "comfy-table",
