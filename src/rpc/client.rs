@@ -9,9 +9,10 @@ use std::time::Duration;
 use alloy::providers::{layers::CallBatchLayer, Provider, ProviderBuilder};
 use alloy::transports::TransportError;
 use alloy_chains::NamedChain;
-
+use alloy::transports::layers::RetryBackoffLayer;
+use alloy::rpc::client::RpcClient;
 /// List of supported EVM blockchain networks.
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq,Clone)]
 pub enum SupportedChains {
     Mainnet,
     Sepolia,
@@ -57,19 +58,23 @@ impl SupportedChains {
             SupportedChains::PolygonAmoy => "https://rpc-amoy.polygon.technology",
         }
     }
-}
+
 
 /// Resolves which RPC URL to use for a connection.
 ///
 /// Returns the custom `rpc_url` if provided in `Some(...)`,
 /// otherwise falls back to the default RPC URL for the target `chain`.
-pub fn resolve_rpc_url<'a>(chain: &SupportedChains, rpc_url: Option<&'a str>) -> &'a str {
+pub fn resolve_rpc_url<'a>(&'a self, rpc_url: Option<&'a str>) -> &'a str {
     if let Some(url) = rpc_url {
         return url;
     }
 
-    chain.default_rpc_url()
+    self.default_rpc_url()
 }
+
+
+}
+
 
 /// Asynchronously builds and connects an Alloy HTTP RPC provider.
 ///
@@ -87,12 +92,19 @@ pub async fn get_client(
     chain: &SupportedChains,
     rpc_url: Option<&str>,
 ) -> Result<impl Provider, TransportError> {
+    let retry_layer = RetryBackoffLayer::new(3, 100, 5);
+    let url = chain.resolve_rpc_url(rpc_url);
+    let parsed_url = url.parse().map_err(|e| {
+        TransportError::local_usage_str(&format!("Invalid RPC URL: {}", e))
+    })?;
+
+    let client=RpcClient::builder().layer(retry_layer).http(parsed_url);
     // Configure the batching layer with custom wait/batch parameters (10ms window)
     let provider = ProviderBuilder::new()
         .with_chain(chain.to_named_chain())
         .layer(CallBatchLayer::new().wait(Duration::from_millis(10)))
-        .connect(resolve_rpc_url(chain, rpc_url))
-        .await?;
+        .connect_client(client);
+       
 
     Ok(provider)
 }
