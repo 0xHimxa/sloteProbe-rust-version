@@ -7,11 +7,9 @@ mod tests;
 use rpc::client::*;
  
 
-use core::artifact_parser::foundry::ArtifactFile;
 
 use alloy::providers::Provider;
-use alloy::eips::BlockNumberOrTag;
-use alloy::primitives::{Address,address,U256};
+use alloy::primitives::{address, U256};
 
 
 #[tokio::main]
