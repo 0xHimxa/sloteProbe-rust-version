@@ -47,7 +47,7 @@ impl SupportedChains {
     pub fn default_rpc_url(&self) -> &'static str {
         match self {
             SupportedChains::Mainnet => "https://eth.drpc.org",
-            SupportedChains::Sepolia => "https://rpc.ankr.com/eth_sepolia",
+            SupportedChains::Sepolia => "https://sepolia.drpc.org",
             SupportedChains::Arbitrum => "https://arbitrum.drpc.org",
             SupportedChains::ArbitrumSepolia => "https://sepolia-rollup.arbitrum.io/rpc",
             SupportedChains::Base => "https://mainnet.base.org",
@@ -102,7 +102,7 @@ pub async fn get_client(
     // Configure the batching layer with custom wait/batch parameters (10ms window)
     let provider = ProviderBuilder::new()
         .with_chain(chain.to_named_chain())
-        .layer(CallBatchLayer::new().wait(Duration::from_millis(10)))
+        .layer(CallBatchLayer::new().wait(Duration::from_millis(20)))
         .connect_client(client);
        
 

@@ -1,6 +1,9 @@
 mod core;
 mod rpc;
 
+#[cfg(test)]
+mod tests;
+
 use rpc::client::*;
  
 
@@ -19,9 +22,9 @@ async fn main(){
 //   let foundry_raw_layout=artifact_file.load_foundry_artifact().unwrap();
 //   let normalized=ArtifactFile::normalize_artifacts(&foundry_raw_layout).unwrap();
 //   println!("{:#?}",normalized);
-let client = get_client(&SupportedChains::BaseSepolia, None).await.unwrap();
+let client = get_client(&SupportedChains::Sepolia, None).await.unwrap();
 
-let storage=client.get_storage_at(address!("0xf04E1047F34507C7Cf60fDc811116Bc7b0E923f3"),U256::from(2)).await.unwrap();
+let storage=client.get_storage_at(address!("0xF6446F446E56a73a2CE1660653BB1C44cF22ed8a"),U256::from(0)).await.unwrap();
 print!("{}",storage);
 
 

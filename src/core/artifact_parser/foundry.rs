@@ -4,6 +4,7 @@ use std::io::BufReader;
 use super::types::{FoundryRawLayout, NormalizedStorage};
 
 /// Wrapper around a target EVM artifact file on disk.
+#[derive(Debug)]
 pub struct ArtifactFile {
     file: File,
 }

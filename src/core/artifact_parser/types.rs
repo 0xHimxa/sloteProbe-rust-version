@@ -24,13 +24,6 @@ pub struct FoundryStorage {
 
 
 
-/// A type alias representing the raw type dictionary output by Foundry, mapping type keys to their metadata.
-pub type FoundryTypeRaw = HashMap<String, FoundryTypeInfo>;
-
-
-
-
-
 /// Contains detailed type information for contract storage variables.
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -58,6 +51,12 @@ pub struct FoundryTypeInfo {
     pub base: Option<String>,
 }
 
+
+
+
+
+/// A type alias representing the raw type dictionary output by Foundry, mapping type keys to their metadata.
+pub type FoundryTypeRaw = HashMap<String, FoundryTypeInfo>;
 
 
 
