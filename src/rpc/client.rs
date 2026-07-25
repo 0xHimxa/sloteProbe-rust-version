@@ -6,11 +6,13 @@
 
 use std::time::Duration;
 
+use alloy::eips::BlockId;
 use alloy::providers::{layers::CallBatchLayer, Provider, ProviderBuilder};
 use alloy::transports::TransportError;
 use alloy_chains::NamedChain;
 use alloy::transports::layers::RetryBackoffLayer;
 use alloy::rpc::client::RpcClient;
+
 /// List of supported EVM blockchain networks.
 #[derive(Debug, PartialEq, Eq,Clone)]
 pub enum SupportedChains {
@@ -91,6 +93,7 @@ pub fn resolve_rpc_url<'a>(&'a self, rpc_url: Option<&'a str>) -> &'a str {
 pub async fn get_client(
     chain: &SupportedChains,
     rpc_url: Option<&str>,
+    block_id: Option<u64>,
 ) -> Result<impl Provider, TransportError> {
     let retry_layer = RetryBackoffLayer::new(3, 100, 5);
     let url = chain.resolve_rpc_url(rpc_url);
@@ -98,10 +101,18 @@ pub async fn get_client(
         TransportError::local_usage_str(&format!("Invalid RPC URL: {}", e))
     })?;
 
+
+    
+
+   
+let effective_block_id = block_id.map(|x| BlockId::number(x)).unwrap_or_else(BlockId::latest);
+
+
     let client=RpcClient::builder().layer(retry_layer).http(parsed_url);
     // Configure the batching layer with custom wait/batch parameters (10ms window)
     let provider = ProviderBuilder::new()
         .with_chain(chain.to_named_chain())
+        .with_default_block(effective_block_id)
         .layer(CallBatchLayer::new().wait(Duration::from_millis(20)))
         .connect_client(client);
        

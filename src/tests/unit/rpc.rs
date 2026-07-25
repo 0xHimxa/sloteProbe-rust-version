@@ -4,7 +4,7 @@ use alloy::providers::Provider;
 
 #[tokio::test]
 async fn test_sepolia_rpc_client_and_storage() {
-    let client = get_client(&SupportedChains::Sepolia, None)
+    let client = get_client(&SupportedChains::Sepolia, None,None)
         .await
         .expect("Failed to initialize Sepolia RPC client");
 
