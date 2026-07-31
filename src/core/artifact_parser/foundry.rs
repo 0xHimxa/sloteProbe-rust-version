@@ -59,7 +59,7 @@ impl ArtifactFile {
                 Ok(NormalizedStorage {
                     name: &v.label,
                     type_of: &v.type_of,
-                    label: &v.label,
+                    label: &type_info.label,
                     // Convert decimal slot string into Alloy's U256 representation
                     slot: U256::from_str_radix(&v.slot, 10)
                         .map_err(|e| format!("Failed to parse slot value: {}", e))?,

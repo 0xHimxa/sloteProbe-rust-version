@@ -36,7 +36,7 @@ pub struct FoundryTypeInfo {
     pub number_of_bytes: String,
     
     /// An optional human-readable label or display type name (e.g., "uint256", "address").
-    pub label: Option<String>,
+    pub label:  String,
     
     /// Optional field containing nested struct fields if this type represents a struct.
     pub members: Option<Vec<FoundryStorage>>,

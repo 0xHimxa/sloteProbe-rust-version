@@ -113,7 +113,7 @@ let effective_block_id = block_id.map(|x| BlockId::number(x)).unwrap_or_else(Blo
     let provider = ProviderBuilder::new()
         .with_chain(chain.to_named_chain())
         .with_default_block(effective_block_id)
-        .layer(CallBatchLayer::new().wait(Duration::from_millis(20)))
+        .layer(CallBatchLayer::new().wait(Duration::from_millis(10)))
         .connect_client(client);
        
 
